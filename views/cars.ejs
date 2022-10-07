@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-between">
+  <h3>
+    <b>List Cars</b>
+  </h3>
+  <a href="/cars/add" class="d-flex">
+    <button type="button" class="btn btn-primary">+ Add New Car</button>
+  </a>
+</div>
+
+<div class="mt-3">
+  <button class="btn btn-outline-primary p"><a href=""></a>All</button>
+  <button class="btn btn-outline-primary"><a href=""></a>Small</button>
+  <button class="btn btn-outline-primary"><a href=""></a>Medium</button>
+  <button class="btn btn-outline-primary"><a href=""></a>Large</button>
+</div>
+
+<div class="row m-0 p-0 mt-3">
+  <% newCars.forEach(car => { %>
+  <div class="col-md-4 p-2">
+    <div class="card">
+      <img src="<%= car.image %>" alt="" class="card-img-top" />
+      <div class="card-body">
+        <p><%= car.name %></p>
+        <p class="fw-bold">Rp. <%= car.price %> / hari</p>
+        <p class="text-secondary"><i class="fa fa-clock-o"></i>Updated at <%= car.day %> <%= car.month %> <%= car.year %>, <%= car.hour %>.<%= car.minute %></p>
+        <div class="d-inline-flex gap-2">
+          <form action="/cars/delete/<%= car.id %>?_method=DELETE" method="post">
+            <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content" style="height: 380px; padding: 10% 8% 10% 8%">
+                  <div class="modal">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body text-center">
+                    <img src="/images/Beep.png" alt="mobil" />
+                    <h2>Menghapus Data Mobil</h2>
+                    <p>Setelah dihapus, data mobil tidak dapat dikembalikan. Yakin ingin menghapus?</p>
+                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle2 <%= car.id %>" data-bs-toggle="modal" style="width: 17%">Ya</button>
+                    &nbsp;
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal" style="width: 17%">Tidak</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <a class="btn btn-outline-success" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Delete</a>
+            <!-- <button class="btn btn-outline-danger" type="submit"><i class="fa fa-trash"></i> Delete</button> -->
+          </form>
+          <a href="/cars/edit/<%= car.id %>"
+            ><button class="btn btn-success text-white"><i class="fa fa-edit"></i> Edit</button></a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <% }) %>
+</div>
