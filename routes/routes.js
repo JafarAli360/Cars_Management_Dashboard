@@ -99,6 +99,13 @@ carRoute.get("/cars/add", (req, res) => {
   res.render("addNewCar", { layout: "layouts/app" });
 });
 
+carRoute.get("/cars/list/:size", async (req, res) => {
+  const data = await car.findAll({
+    where: { size: req.params.size },
+  });
+  res.render("cars", { layout: "layouts/app" });
+});
+
 carRoute.get("/cars/edit/:id", async (req, res) => {
   const car = await Car.findByPk(req.params.id);
   res.render("editCar", { layout: "layouts/app", car });
@@ -138,12 +145,17 @@ carRoute.post("/cars/updatecars/:id", async (req, res) => {
   } else if (req.body.ukuran === "Large") {
     req.body.type = "SUV";
   }
+  console.log(req.files);
+  const file = req.files.gambar;
+  const ext = path.extname(file.name);
+  const fileName = file.md5 + ext;
+  const url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
   const car = await Car.findByPk(req.params.id);
   await car.update({
     name: req.body.nama,
     type: req.body.type,
     price: req.body.harga,
-    image: req.body.gambar,
+    image: url,
     size: req.body.ukuran,
     createdAt: car.createdAt,
     updatedAt: new Date(),
